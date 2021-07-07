@@ -1,0 +1,46 @@
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/lobby_owner.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="lobby-code" style="display: none;"><%= code %></div>
+        <div id="auth-token" style="display: none;"><%=auth_token%></div> <!--DODANE-->
+        <div id="site-header"><b>CODE:</b>&ensp;<%= code %></div>
+        <div id="site-content">
+            <div class="half-box">
+                <div id="users-box">
+                    <div id="users-list">
+                        users list here
+                    </div>
+                </div>
+                <div id="button-box">
+                    <button id="leave-button">
+                        LEAVE LOBBY
+                    </button>
+                </div>
+            </div>
+            <div class="half-box">
+                <div id="quizes-box">
+                    <div id="quizes-list">
+                        <% for (var i = 0; i < quizes.length; i++) { %>
+                            <label>
+                                <input type="checkbox" class="radio" value=<%= quizes[i].quiz_id %> name="selected-quiz" />
+                                &ensp;<%= quizes[i].title %>&ensp;(<%=quizes[i].type%>)
+                            </label>
+                            <br>
+                        <% } %>
+                    </div>
+                </div>
+                <div id="button-box">
+                    <button id="start-button">
+                        START GAME
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../js/lobby.js"></script>
+    </body>
+</html>

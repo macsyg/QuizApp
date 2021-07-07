@@ -1,0 +1,65 @@
+body {
+    background-color: lightskyblue;
+}
+
+#site-header {
+    height: 10%;
+    width: 100%;
+    font-size: 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#site-content {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.half-box {
+    height: 100%;
+    width: 50%;
+}
+
+#users-box {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*#users-box {
+    display: flex;
+    align-items: right;
+    justify-content: right;
+} */
+
+#users-list {
+    background-color: white;
+    height: 90%;
+    width: 50%;
+    overflow-y: scroll;
+    /* margin-left: 4vw;
+    margin-right: 4vw; */
+}
+
+#button-box {
+    height: 10%;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#leave-button {
+    background-color: white;
+    height: 80%;
+    width: 40%;
+    border-radius: 5%;
+    font-size: 4vh;
+    outline: none; 
+    border: none;
+}

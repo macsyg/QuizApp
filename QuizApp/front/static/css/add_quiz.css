@@ -1,0 +1,70 @@
+body{
+    background-color: lightskyblue;
+    height: 100%;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#center-form {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#quiz{
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+#info{
+    height: 100px;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#buttons{
+    height: 100px;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quiz_elem{
+    width: 80%;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.field-quiz input{
+    font-size: 100%;
+}
+
+.field-quiz label{
+    font-size: 100%;
+}
+
+.field-quiz{
+    text-align: center;
+    height: 95%;
+    width: 100%;
+}
+
+.field-info{
+    text-align: center;
+    height: 95%;
+}
+
+.center-button{
+    margin: 0 auto;
+}

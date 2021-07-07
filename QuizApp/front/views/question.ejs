@@ -1,0 +1,49 @@
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/question.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="auth-token" style="display: none"><%= auth_token %></div>
+            <div id="game-id" style="display: none"><%= game_id %></div>
+            <div id="question-space">
+                <div id="question-box">
+                    Quiz will start soon!
+                </div>
+            </div>
+            <div id="answers-space">
+                <div id="answers-box">
+                    <div class="answers-row">
+                        <div class="answer-box" >
+                            <button class="answer-button" id="answer-A">
+                                A
+                            </button>
+                        </div>
+                        <div class="answer-box" >
+                            <button class="answer-button" id="answer-B">
+                                B
+                            </button>
+                        </div>
+                    </div>
+                    <div class="answers-row">
+                        <div class="answer-box" >
+                            <button class="answer-button" id="answer-C">
+                                C
+                            </button>
+                        </div>
+                        <div class="answer-box" >
+                            <button class="answer-button" id="answer-D">
+                                D
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="leaderboard"></div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../js/game.js"></script>
+    </body>
+</html>

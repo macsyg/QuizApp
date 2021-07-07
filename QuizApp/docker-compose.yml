@@ -1,0 +1,89 @@
+version: '3'
+services:
+
+  users-node:
+    container_name: users-node
+    restart: always
+    build: ./users
+    ports:
+      - '8002:8002'
+    links:
+      - users-db
+    networks:
+      - quizes-network
+
+  users-db:
+    container_name: users-db
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    networks:
+      - quizes-network
+
+  front-node:
+    container_name: front-node
+    restart: always
+    build: ./front
+    ports:
+      - '8001:80'
+    networks:
+      - quizes-network
+
+  quizes-node:
+    container_name: quizes-node
+    restart: always
+    build: ./quizes
+    ports:
+      - '8003:8003'
+    links:
+      - quizes-db
+    networks:
+      - quizes-network
+
+  quizes-db:
+    container_name: quizes-db
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    networks:
+      - quizes-network
+
+  quizes-queue:
+    container_name: quizes-queue
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - quizes-network  
+
+  lobbies-node:
+    container_name: lobbies-node
+    build: ./lobbies
+    restart: always
+    ports:
+      - '8004:8004'
+    networks:
+      - quizes-network
+
+  games-node:
+    container_name: games-node
+    build: ./games
+    restart: always
+    ports:
+      - '8005:8005'
+    networks:
+      - quizes-network
+
+  games-queue:
+    container_name: games-queue
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - quizes-network 
+
+networks:
+  quizes-network:
+    

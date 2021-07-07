@@ -1,0 +1,28 @@
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/lobby_guest.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="lobby-code" style="display: none;"><%= code %></div>
+        <div id="auth-token" style="display: none;"><%=auth_token%></div> <!--DODANE-->
+        <div id="site-header"><b>CODE:</b>&ensp;<%= code %></div>
+        <div id="site-content">
+            <div class="half-box">
+                <div id="users-box">
+                    <div id="users-list">
+                        users list here
+                    </div>
+                </div>
+                <div id="button-box">
+                    <button id="leave-button">
+                        LEAVE LOBBY
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../js/lobby.js"></script>
+    </body>
+</html>

@@ -1,0 +1,505 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: front-node
+      name: front-node
+    spec:
+      type: LoadBalancer
+      ports:
+        - name: "8001"
+          port: 8001
+          targetPort: 80
+      selector:
+        io.kompose.service: front-node
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: games-node
+      name: games-node
+    spec:
+      ports:
+        - name: "8005"
+          port: 8005
+          targetPort: 8005
+      selector:
+        io.kompose.service: games-node
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: games-queue
+      name: games-queue
+    spec:
+      ports:
+        - name: "5672"
+          port: 5672
+          targetPort: 5672
+        - name: "15672"
+          port: 15672
+          targetPort: 15672
+      selector:
+        io.kompose.service: games-queue
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: lobbies-node
+      name: lobbies-node
+    spec:
+      ports:
+        - name: "8004"
+          port: 8004
+          targetPort: 8004
+      selector:
+        io.kompose.service: lobbies-node
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-db
+      name: quizes-db
+    spec:
+      ports:
+        - name: "27017"
+          port: 27017
+          targetPort: 27017
+      selector:
+        io.kompose.service: quizes-db
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-node
+      name: quizes-node
+    spec:
+      ports:
+        - name: "8003"
+          port: 8003
+          targetPort: 8003
+      selector:
+        io.kompose.service: quizes-node
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-queue
+      name: quizes-queue
+    spec:
+      ports:
+        - name: "5672"
+          port: 5672
+          targetPort: 5672
+        - name: "15672"
+          port: 15672
+          targetPort: 15672
+      selector:
+        io.kompose.service: quizes-queue
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: users-db
+      name: users-db
+    spec:
+      ports:
+        - name: "27017"
+          port: 27017
+          targetPort: 27017
+      selector:
+        io.kompose.service: users-db
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: users-node
+      name: users-node
+    spec:
+      ports:
+        - name: "8002"
+          port: 8002
+          targetPort: 8002
+      selector:
+        io.kompose.service: users-node
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: front-node
+      name: front-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: front-node
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: front-node
+        spec:
+          containers:
+            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/front:v3
+              name: front-node
+              ports:
+                - containerPort: 80
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      creationTimestamp: null
+      name: quizes-network
+    spec:
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  io.kompose.network/quizes-network: "true"
+      podSelector:
+        matchLabels:
+          io.kompose.network/quizes-network: "true"
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: games-node
+      name: games-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: games-node
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: games-node
+        spec:
+          containers:
+            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/games:v3
+              name: games-node
+              ports:
+                - containerPort: 8005
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: games-queue
+      name: games-queue
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: games-queue
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: games-queue
+        spec:
+          containers:
+            - image: rabbitmq:3-management
+              name: games-queue
+              ports:
+                - containerPort: 5672
+                - containerPort: 15672
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: lobbies-node
+      name: lobbies-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: lobbies-node
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: lobbies-node
+        spec:
+          containers:
+            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/lobbies:v3
+              name: lobbies-node
+              ports:
+                - containerPort: 8004
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-db
+      name: quizes-db
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: quizes-db
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: quizes-db
+        spec:
+          containers:
+            - image: mongo:latest
+              name: quizes-db
+              ports:
+                - containerPort: 27017
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-node
+      name: quizes-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: quizes-node
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: quizes-node
+        spec:
+          containers:
+            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/quizes:v3
+              name: quizes-node
+              ports:
+                - containerPort: 8003
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: quizes-queue
+      name: quizes-queue
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: quizes-queue
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: quizes-queue
+        spec:
+          containers:
+            - image: rabbitmq:3-management
+              name: quizes-queue
+              ports:
+                - containerPort: 5672
+                - containerPort: 15672
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: users-db
+      name: users-db
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: users-db
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: users-db
+        spec:
+          containers:
+            - image: mongo:latest
+              name: users-db
+              ports:
+                - containerPort: 27017
+              resources: {}
+          restartPolicy: Always
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: users-node
+      name: users-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: users-node
+      strategy: {}
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -f docker-compose.yml -o kubemanifest.yaml
+            kompose.version: 1.22.0 (955b78124)
+          creationTimestamp: null
+          labels:
+            io.kompose.network/quizes-network: "true"
+            io.kompose.service: users-node
+        spec:
+          containers:
+            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/users:v3
+              name: users-node
+              ports:
+                - containerPort: 8002
+              resources: {}
+          restartPolicy: Always
+    status: {}
+kind: List
+metadata: {}
+

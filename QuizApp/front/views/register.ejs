@@ -1,0 +1,26 @@
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>Register!</h1>
+        <form action="/register" method="POST">
+            <label for="username">Username</label>
+            <input type="text" placeholder="username" name="username" required>
+            <label for="password">Password</label>
+            <input type="password" placeholder="password" name="password" required>
+
+            <input type="hidden" name="register_form" value="used" />
+            <button type="submit">Register</button>
+        </form>
+        <% if(failure) { %> 
+            <p style="color:red;">user already exists!</p>
+        <% } %>
+        <br>
+        <br>
+        <div class="container">
+            <label>Already have an account?</label>
+            <a href="/">log in!</a>
+        </div>
+    </body>
+</html>

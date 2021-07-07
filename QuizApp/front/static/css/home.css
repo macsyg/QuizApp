@@ -1,0 +1,54 @@
+body{
+    background-color: lightskyblue;
+    display: center;
+}
+
+.small-box {
+    /* background-color: white; */
+    color: black;
+    height: 25%;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.big-box {
+    /* background-color: white; */
+    color: black;
+    height: 35%;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 5%;
+    display: center;
+}
+
+.half-box {
+    height: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-button {
+    background-color: white;
+    height: 80%;
+    width: 80%;
+    border-radius: 5%;
+    font-size: 300%;
+    outline: none; 
+    border: none;
+}
+
+input { 
+    text-align: center;
+    outline: none; 
+    border: none;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
