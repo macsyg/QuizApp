@@ -31,6 +31,7 @@ items:
         io.kompose.service: games-node
       name: games-node
     spec:
+      type: LoadBalancer
       ports:
         - name: "8005"
           port: 8005
@@ -72,6 +73,7 @@ items:
         io.kompose.service: lobbies-node
       name: lobbies-node
     spec:
+      type: LoadBalancer
       ports:
         - name: "8004"
           port: 8004
@@ -205,7 +207,7 @@ items:
             io.kompose.service: front-node
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/front:v3
+            - image: europe-west4-docker.pkg.dev/quizapp-319018/jnp-2/front:v5
               name: front-node
               ports:
                 - containerPort: 80
@@ -253,7 +255,7 @@ items:
             io.kompose.service: games-node
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/games:v3
+            - image: europe-west4-docker.pkg.dev/quizapp-319018/jnp-2/games:v5
               name: games-node
               ports:
                 - containerPort: 8005
@@ -322,7 +324,7 @@ items:
             io.kompose.service: lobbies-node
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/lobbies:v3
+            - image: europe-west4-docker.pkg.dev/quizapp-319018/jnp-2/lobbies:v5
               name: lobbies-node
               ports:
                 - containerPort: 8004
@@ -390,7 +392,7 @@ items:
             io.kompose.service: quizes-node
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/quizes:v3
+            - image: europe-west4-docker.pkg.dev/quizapp-319018/jnp-2/quizes:v5
               name: quizes-node
               ports:
                 - containerPort: 8003
@@ -493,7 +495,7 @@ items:
             io.kompose.service: users-node
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/jnp-test-318918/jnp-repo/users:v3
+            - image: europe-west4-docker.pkg.dev/quizapp-319018/jnp-2/users:v5
               name: users-node
               ports:
                 - containerPort: 8002

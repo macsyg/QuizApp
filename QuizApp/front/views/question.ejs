@@ -5,7 +5,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
-        <div id="container">
+        <div id="container-question">
             <div id="auth-token" style="display: none"><%= auth_token %></div>
             <div id="game-id" style="display: none"><%= game_id %></div>
             <div id="question-space">
@@ -42,7 +42,17 @@
                 </div>
             </div>
         </div>
-        <div id="leaderboard"></div>
+        <div id="container-result">
+            <div id="leaderboard-space">
+                <div id="leaderboard-box">
+                    <div id="header">LEADERBOARD</div>
+                    <div id="leaderboard"></div>
+                </div>
+            </div>
+            <div id="correct-answer-space">
+                <div id="correct-answer"></div>
+            </div>
+        </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="../js/game.js"></script>
     </body>

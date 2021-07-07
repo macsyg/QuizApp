@@ -1,9 +1,7 @@
 var chosenQuiz = "";
-const origin = window.location.origin;
 
-// socketUrl for local usage - on cloud should be replaced with
-// lobbies service's public address
-const socketUrl = origin.replace('8001', '8004');
+const origin = window.location.origin;
+const socketUrl = ''; // replace with lobbies service public address, locally: localhost:8005
 const socket = io(socketUrl);
 const code = document.getElementById("lobby-code").innerHTML;
 const authToken = document.getElementById("auth-token").innerHTML;

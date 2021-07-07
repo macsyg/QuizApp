@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+var db;
 
 const HOST = '0.0.0.0'
 const PORT = 8002;
 
-const USERS_ACCESS_TOKEN_SECRET_KEY = 'abcd1234'; // TODO: swap to longer and more complex key on deployment
+const USERS_ACCESS_TOKEN_SECRET_KEY = ''; // Replace with randomly generated hex key
 
 const app = express();
 app.use(cookieParser());
@@ -20,9 +21,27 @@ const userSchema = new mongoose.Schema({
 
 const userModel = mongoose.model('user', userSchema);
 
-mongoose.connect('mongodb://users-db:27017/users', {useNewUrlParser: true});
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'CONNECTION ERROR'));
+connectToDatabase();
+function connectToDatabase() {
+    try {
+        mongoose.connect('mongodb://users-db:27017/users', {useNewUrlParser: true});
+        db = mongoose.connection;
+    }
+    catch (err) {
+        console.log('Failed conneting to database, retrying in 15s...');
+        setTimeout(connectToDatabase, 15000);
+    }
+}
+
+
+app.get('/', async function (req, res, next) {
+    const allUsersData = await userModel.find();
+    res.cookie('auth_token', '21372137fest', {
+        maxAge: 300 * 1000,
+        httpOnly: true
+    });
+    res.send(allUsersData);
+})
 
 app.post('/create-user', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -40,6 +59,7 @@ app.post('/create-user', async (req, res) => {
         newUser.save();
         res.send("ok");
     }
+    // res.send(hashedPassword)
 });
 
 app.post('/login', async (req, res) => {

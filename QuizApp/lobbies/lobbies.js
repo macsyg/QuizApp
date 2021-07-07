@@ -9,11 +9,13 @@ var channel; // rabbitMQ channel
 const HOST = '0.0.0.0'
 const PORT = 8004;
 const RABBITMQ_RETRY_COOLDOWN = 10000;
-const USERS_ACCESS_TOKEN_SECRET_KEY = 'abcd1234'; // TODO: swap to longer and more complex key on deployment
+const USERS_ACCESS_TOKEN_SECRET_KEY = ''; // Replace with randomly generated hex key
 const LOBBY_CODE_LENGTH = 5;
 
 const gameLobbies = {}
 const activeUsers = {}
+
+/*app.listen(PORT, HOST);*/
 
 const app = express();
 app.use(cookieParser());
@@ -80,7 +82,7 @@ app.get('/join-with-code', authenticateToken, (req, res) => {
     }
     var lobby = gameLobbies[req.body.code];
     if (lobby == undefined) {
-        return res.send("INVALID CODE");
+        return res.sendStatus(404);
     }
     lobby.users.push(req.user.name);
     activeUsers[req.user.name] = req.body.code;
@@ -122,6 +124,21 @@ app.get('/set-quiz-id', authenticateToken, (req, res) => {
     userLobby.quizId = req.query.quizId;
     res.sendStatus(200);
 })
+
+// rabbitMQ
+/*
+connect();
+async function connect() {
+    try {
+        const amqpServer = "amqp://games-queue";
+        connection = await amqp.connect(amqpServer);
+        channel = await connection.createChannel();
+        await channel.assertQueue("games-queue");
+    }
+    catch (err) {
+        setTimeout(connect, RABBITMQ_RETRY_COOLDOWN);
+    }
+}*/
 
 app.get('/start-game', authenticateToken, async (req, res) => {
     if (activeUsers[req.user.name] == undefined) {

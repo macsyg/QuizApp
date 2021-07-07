@@ -2,29 +2,32 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/home.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/home.js"></script>
     </head>
     <body>
-        <form action="/add_quiz" method="GET">
-        <div class="small-box">
-                <button class="custom-button" type="submit">CREATE QUIZ</button>
+        <div class="box">
+            <button id="add-quiz-button" class="redirect-button" type="button">
+                CREATE QUIZ
+            </button>
         </div>
-        </form>
-        <form action="/create_lobby" method="GET">
-        <div class="small-box">
-                <button class="custom-button" type="submit">CREATE LOBBY</button>
+        <div class="box">
+            <button id="create-lobby-button" class="redirect-button" type="button">
+                CREATE LOBBY
+            </button>
         </div>
-        </form>
-        <form action="/join_lobby" method="POST">
-        <div class="big-box">            
-            <div class="half-box">
-                <button class="custom-button" type="submit">
-                    JOIN LOBBY
-                </button>
-            </div>
-            <div class="half-box">
+        <div class="box">
+            <form action="/join_lobby" method="POST">
                 <input class="custom-button" type="text" placeholder="LOBBY CODE" name="code" required>
-            </div>
+                <button class="submit-button" type="submit">
+                    JOIN
+                </button>
+            </form>
         </div>
-        </form>
+        <div class="box">
+            <button id="log-out-button" class="redirect-button" type="button">
+                LOG OUT
+            </button>
+        </div>
     </body>
 </html>

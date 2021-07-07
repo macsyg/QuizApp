@@ -6,7 +6,7 @@ const socket = require('socket.io');
 const axios = require('axios');
 
 const PORT = 8005;
-const USERS_ACCESS_TOKEN_SECRET_KEY = 'abcd1234'; // TODO: swap to longer and more complex key on deployment
+const USERS_ACCESS_TOKEN_SECRET_KEY = ''; // Replace with randomly generated hex key
 
 const app = express();
 app.use(cookieParser());
@@ -102,14 +102,15 @@ async function runGame(gameData) {
             answers: answers.sort((a, b) => 0.5 - Math.random())
         }
         io.in(gameData.gameId).emit("question", dataToSend);
-        await delay(5000);
+        await delay(10000);
         gameData.scores.sort(function (a, b) {
             return b.pts - a.pts;
         });
-        io.in(gameData.gameId).emit("leaderboard", gameData.scores);
+        io.in(gameData.gameId).emit("leaderboard", gameData.scores, question.correct);
         await delay(5000);
     }
     io.in(gameData.gameId).emit("summary", gameData.scores, gameData.lobbyCode);
+    await delay(3000);
 }
 
 const server = require('http').Server(app);

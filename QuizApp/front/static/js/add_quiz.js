@@ -1,3 +1,4 @@
+const origin = window.location.origin;
 var questions = 0;
 var text = `<div class="quiz_elem">
 <label for="question">Question</label>
@@ -50,6 +51,6 @@ $(document).ready(function() {
         addQuestion();
     });
     $('#leave-button').on('click', function() {
-        window.location.href = `http://localhost:8001/home`;
+        window.location.href = `${origin}/home`;
     });
 });

@@ -10,11 +10,15 @@ const app = express();
 const PORT = 80;
 const HOST = '0.0.0.0';
 const RABBITMQ_RETRY_COOLDOWN = 10000;
-const USERS_ACCESS_TOKEN_SECRET_KEY = 'abcd1234'; // TODO: swap to longer and more complex key on deployment
+const USERS_ACCESS_TOKEN_SECRET_KEY = ''; // Replace with randomly generated hex key
 
 // to serve socket.io on client side
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+
+io.on("connection", socket => {
+  console.log('connected wtf');
+})
 
 // rabbitMQ
 connect();
@@ -193,6 +197,13 @@ app.get('/lobby/:id', authenticateToken, (req, res) => {
   else {
     return res.render('lobby_guest', {code: req.params.id, auth_token: req.cookies['auth_token']});
   }
+});
+
+app.get('/log_out', (req, res) => {
+  res.clearCookie('auth_token');
+  res.clearCookie('lobby_code');
+  res.clearCookie('is_owner');
+  res.redirect('/');
 });
 
 app.get('/quiz/:id', authenticateToken, (req, res) => {

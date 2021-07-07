@@ -10,7 +10,7 @@ const HOST = '0.0.0.0'
 const PORT = 8003;
 const RABBITMQ_RETRY_COOLDOWN = 10000;
 
-const USERS_ACCESS_TOKEN_SECRET_KEY = 'abcd1234'; // TODO: swap to longer and more complex key on deployment
+const USERS_ACCESS_TOKEN_SECRET_KEY = ''; // Replace with randomly generated hex key
 
 const app = express();
 app.use(cookieParser());
@@ -59,7 +59,83 @@ async function connectToRabbitMQ() {
     }
 }
 
-/*const quiz1 = {
+app.get('/all-quizes-titles', authenticateToken, async (req, res) => {
+    MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
+        if (err) {
+            client.close();
+            return res.sendStatus(404);
+        }
+        let result_array = []
+        const quizes_collection = client.db('quizes').collection('quizes');
+        const quizesData = quizes_collection.find({}).toArray(function(err, result) {
+            if (err) throw err;
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].type === 'private' && result[i].user != req.user.name) {
+                    continue;
+                }
+                result_array.push({
+                    quiz_id: result[i]._id,
+                    title: result[i].title,
+                    type: result[i].type,
+                    user: result[i].user
+                })
+            }
+            const result_as_json = JSON.stringify(result_array);
+            res.json(result_as_json);
+        })
+    });
+});
+
+app.get('/quiz-data', async (req, res) => {
+    MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
+        if (err) {
+            client.close();
+            return;
+        }
+        let result_array = []
+        const quizes_collection = client.db('quizes').collection('quizes');
+        const quizesData = quizes_collection.find({_id: mongo.ObjectId(req.body.quiz_id)}).toArray(function(err, result) {
+            if (result.length == 0) {
+                return res.sendStatus(404);
+            }
+            const result_as_json = JSON.stringify(result[0]);
+            res.json(result_as_json);
+        })
+    });
+});
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authentication'];
+    const token = authHeader.split(' ')[1];
+    if (token == null) {
+        return res.sendStatus(401);
+    }
+    jwt.verify(token, USERS_ACCESS_TOKEN_SECRET_KEY, (err, user) => {
+        if (err) return res.sendStatus(403);
+        // token is valid
+        req.user = user;
+        next();
+    });
+}
+
+// returns 'null' if token is invalid, otherwise returns token's owner's username
+function isValidToken(token) {
+    if (token == null) {
+        return null;
+    }
+    return jwt.verify(token, USERS_ACCESS_TOKEN_SECRET_KEY, (err, user) => {
+        if (err) {
+            return null;
+        }
+        return user.name;
+    });
+}
+
+app.listen(PORT, HOST);
+
+//EXAMPLE QUIZES
+
+const quiz1 = {
     title: "World Capitals",
     type: "base",
     user: "",
@@ -157,87 +233,13 @@ const quiz2 = {
             wrong_3: "California"
         }
     ]
-}*/
+}
 
-/*MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
+MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
     if (err) {
         console.log('err');
         return;
     }
     const quizes_collection = client.db('quizes').collection('quizes');
     quizes_collection.insertMany([quiz1, quiz2]);
-});*/
-
-app.get('/all-quizes-titles', authenticateToken, async (req, res) => {
-    MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
-        if (err) {
-            client.close();
-            return res.sendStatus(404);
-        }
-        let result_array = []
-        const quizes_collection = client.db('quizes').collection('quizes');
-        const quizesData = quizes_collection.find({}).toArray(function(err, result) {
-            if (err) throw err;
-            for (var i = 0; i < result.length; i++) {
-                if (result[i].type === 'private' && result[i].user != req.user.name) {
-                    continue;
-                }
-                result_array.push({
-                    quiz_id: result[i]._id,
-                    title: result[i].title,
-                    type: result[i].type,
-                    user: result[i].user
-                })
-            }
-            const result_as_json = JSON.stringify(result_array);
-            res.json(result_as_json);
-        })
-    });
 });
-
-app.get('/quiz-data', async (req, res) => {
-    MongoClient.connect(quizes_db_url, {useNewUrlParser: true}, (err, client) => {
-        if (err) {
-            client.close();
-            return;
-        }
-        let result_array = []
-        const quizes_collection = client.db('quizes').collection('quizes');
-        const quizesData = quizes_collection.find({_id: mongo.ObjectId(req.body.quiz_id)}).toArray(function(err, result) {
-            if (result.length == 0) {
-                return res.sendStatus(404);
-            }
-            const result_as_json = JSON.stringify(result[0]);
-            res.json(result_as_json);
-        })
-    });
-});
-
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authentication'];
-    const token = authHeader.split(' ')[1];
-    if (token == null) {
-        return res.sendStatus(401);
-    }
-    jwt.verify(token, USERS_ACCESS_TOKEN_SECRET_KEY, (err, user) => {
-        if (err) return res.sendStatus(403);
-        // token is valid
-        req.user = user;
-        next();
-    });
-}
-
-// returns 'null' if token is invalid, otherwise returns token's owner's username
-function isValidToken(token) {
-    if (token == null) {
-        return null;
-    }
-    return jwt.verify(token, USERS_ACCESS_TOKEN_SECRET_KEY, (err, user) => {
-        if (err) {
-            return null;
-        }
-        return user.name;
-    });
-}
-
-app.listen(PORT, HOST);

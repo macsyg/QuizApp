@@ -44,7 +44,7 @@ services:
     container_name: quizes-db
     image: mongo:latest
     ports:
-      - '27017:27017'
+      - '27018:27017'
     networks:
       - quizes-network
 
@@ -52,8 +52,8 @@ services:
     container_name: quizes-queue
     image: rabbitmq:3-management
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5673:5672
+      - 15673:15672
     networks:
       - quizes-network  
 
@@ -79,8 +79,8 @@ services:
     container_name: games-queue
     image: rabbitmq:3-management
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5674:5672
+      - 15674:15672
     networks:
       - quizes-network 
 
